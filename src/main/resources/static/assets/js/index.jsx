@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter as Router, Route, Switch, hashHistory} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {Provider} from "react-redux";
 import {
 	createStore,
@@ -31,7 +31,7 @@ const store = createStore(
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router history={hashHistory}>
+		<Router history={history}>
 			<Switch>
 				<Route exact path="/" component={MainPage}/>
 				<Route exact path="/login" component={LoginPage}/>
