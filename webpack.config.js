@@ -6,11 +6,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+
+const BUILD_DIR = path.resolve(__dirname, 'src/main/resources/static/build/');
 const ASSETS_PATH = './assets';
+
 const JS_PATH = 'src/main/resources/static/assets/js'
 const TEMPLATE_PATH = 'src/main/resources/static/assets/templates'
 const VIEWS_PATH = 'src/main/resources/templates'
-const BUILD_DIR = path.resolve(__dirname, 'src/main/resources/static/build/');
+
 
 var webpack_config = {
 
@@ -46,16 +50,6 @@ var webpack_config = {
 			{
 				test: /\.(jsx|js)$/,
 				loader: 'babel-loader?compact=true&comments=true&minified=true',
-				options: {
-					presets: [
-						'@babel/preset-env',
-						'@babel/react',
-					],
-					plugins: [
-						'@babel/plugin-proposal-class-properties'
-					],
-					babelrc: false,
-				},
 				exclude: /node_modules/
 			},
 			{
@@ -64,7 +58,7 @@ var webpack_config = {
 					loader: 'file-loader',
 					options: {
 						name: '[name].[ext]',
-						outputPath: '/fonts/'
+						outputPath: 'fonts/'
 					}
 				}
 			},
@@ -74,7 +68,7 @@ var webpack_config = {
 					loader: 'file-loader',
 					options: {
 						name: '[name].[ext]',
-						outputPath: '/media/'
+						outputPath: 'media/'
 					}
 				}
 			},
@@ -86,7 +80,7 @@ var webpack_config = {
 					options: {
 						limit: 1024 * 10,
 						name: '[name].[ext]',
-						outputPath: '/images/'
+						outputPath: 'images/'
 					}
 				}
 			},
@@ -100,7 +94,7 @@ var webpack_config = {
 					{
 						loader: MiniCssExtractPlugin.loader,
 						options: {
-							publicPath: '/css'
+							publicPath: '/css/'
 						}
 					}
 					, 'css-loader'],
@@ -130,15 +124,15 @@ var webpack_config = {
 			{
 				patterns: [
 					{
-					from: './images/favicon',
-					to: './images/favicon',
-					toType: 'dir'
-				}
+						from: './images/favicon',
+						to: './images/favicon',
+						toType: 'dir'
+					}
 				]
 			}
 		]),
 		new MiniCssExtractPlugin({
-			filename: '[name].css',
+			filename: 'css/[name].css',
 			chunkFilename: '[id].css',
 		}),
 		new OptimizeCssAssetsPlugin({
