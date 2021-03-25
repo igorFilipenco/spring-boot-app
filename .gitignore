@@ -33,6 +33,7 @@ build/
 .vscode/
 
 ### frontend ###
+package-lock.json
 src/main/resources/templates/*
 src/main/resources/static/build/**/*
 node_modules/**/*
