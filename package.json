@@ -13,6 +13,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "core-js": "^3.9.1",
     "cssnano": "^4.1.10",
     "fetch": "^1.1.0",
     "history": "^5.0.0",
