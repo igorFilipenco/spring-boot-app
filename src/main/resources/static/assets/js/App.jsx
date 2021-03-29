@@ -13,7 +13,7 @@ export default class App extends Component {
 	render() {
 		return(
 			<Provider store={store}>
-				<Router history={history}>
+				<Router>
 					<Switch>
 						<Route exact path="/" component={MainPage}/>
 						<Route exact path="/login" component={LoginPage}/>

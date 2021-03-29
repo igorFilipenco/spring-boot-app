@@ -8,11 +8,9 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
-const BUILD_DIR = path.resolve(__dirname, 'src/main/resources/static/build/');
-const ASSETS_PATH = './assets';
-
-const JS_PATH = 'src/main/resources/static/assets/js'
-const TEMPLATE_PATH = 'src/main/resources/static/assets/templates'
+const BUILD_DIR = path.resolve(__dirname, 'src/main/resources/static/build');
+const ASSETS_PATH = 'src/main/resources/static/assets';
+const TEMPLATE_PATH = ASSETS_PATH + '/templates'
 const VIEWS_PATH = 'src/main/resources/templates'
 
 
@@ -26,7 +24,7 @@ var webpack_config = {
 			"react-dom",
 			"react-router"
 		],
-		react_app: path.resolve(__dirname, JS_PATH) + "/index.jsx",
+		react_app: path.resolve(__dirname, ASSETS_PATH) + "/js/index.jsx",
 	},
 
 	output: {
@@ -124,8 +122,8 @@ var webpack_config = {
 			{
 				patterns: [
 					{
-						from: './images/favicon',
-						to: './images/favicon',
+						from: path.resolve(__dirname, ASSETS_PATH + '/media/favicon'),
+						to: path.resolve(__dirname, BUILD_DIR + '/media/favicon'),
 						toType: 'dir'
 					}
 				]
