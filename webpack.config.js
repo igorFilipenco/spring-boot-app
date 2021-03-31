@@ -6,17 +6,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 
 const BUILD_DIR = path.resolve(__dirname, 'src/main/resources/static/build');
-const ASSETS_PATH = 'src/main/resources/static/assets';
-const TEMPLATE_PATH = ASSETS_PATH + '/templates'
-const VIEWS_PATH = 'src/main/resources/templates'
+const ASSETS_PATH = path.resolve(__dirname, 'src/main/resources/static/assets');
+const TEMPLATE_PATH = path.join(ASSETS_PATH, '/templates');
+const VIEWS_PATH = path.resolve(__dirname, 'src/main/resources/templates');
 
 
 var webpack_config = {
-
-	context: path.resolve(__dirname, ASSETS_PATH),
+	context: ASSETS_PATH,
 
 	entry: {
 		main: [
@@ -24,13 +23,13 @@ var webpack_config = {
 			"react-dom",
 			"react-router"
 		],
-		react_app: path.resolve(__dirname, ASSETS_PATH) + "/js/index.jsx",
+		react_app: path.join(ASSETS_PATH, "/js/index.jsx"),
 	},
 
 	output: {
+		path: BUILD_DIR,
 		filename: 'js/[name].min.js',
 		publicPath: '/build',
-		path: BUILD_DIR
 	},
 
 	resolve: {
@@ -106,29 +105,27 @@ var webpack_config = {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 			}
 		}),
+		new WebpackManifestPlugin(),
 		new CleanWebpackPlugin({
-			cleanAfterEveryBuildPatterns: [
+			verbose: true,
+			cleanOnceBeforeBuildPatterns: [
 				BUILD_DIR,
 				VIEWS_PATH
 			]
 		}),
 		new HtmlWebpackPlugin({
 			title: ' React-APP | Spring-Boot-React-App ',
-			template: path.resolve(__dirname, TEMPLATE_PATH) + '/index.html',
-			filename: path.resolve(__dirname, VIEWS_PATH) + '/index.html',
+			template: path.join(TEMPLATE_PATH, '/index.html'),
+			filename: path.join(VIEWS_PATH, '/index.html'),
 			chunks: ['main', 'react_app']
 		}),
-		new CopyWebpackPlugin([
-			{
-				patterns: [
-					{
-						from: path.resolve(__dirname, ASSETS_PATH + '/media/favicon'),
-						to: path.resolve(__dirname, BUILD_DIR + '/media/favicon'),
-						toType: 'dir'
-					}
-				]
-			}
-		]),
+		new CopyWebpackPlugin({
+			patterns: [{
+				from: path.join(ASSETS_PATH, '/media/favicon'),
+				to: path.join(BUILD_DIR, '/media/favicon'),
+				toType: 'dir',
+			}]
+		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].css',
 			chunkFilename: '[id].css',
@@ -139,7 +136,28 @@ var webpack_config = {
 			cssProcessorOptions: {discardComments: {removeAll: true}},
 			canPrint: true
 		}),
-	]
+	],
+
+	stats: {
+		env: true,
+		colors: true,
+		builtAt: true,
+		warnings: true,
+		errors: true,
+		errorDetails: true,
+		children: false,
+
+		assets: true,
+		entrypoints: true,
+		chunks: true,
+		chunksSort: "size",
+
+		modules: false,
+		modulesSort: "size",
+		logging: true,
+		loggingTrace: true,
+		moduleTrace: true,
+	},
 };
 
 module.exports = webpack_config;
