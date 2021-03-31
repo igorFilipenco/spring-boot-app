@@ -1,67 +1,45 @@
 import {HttpService} from "../utils/HttpService";
 
 import {
-	AUTH_URL,
 	BASIC_PATH,
 	BASIC_URL,
-	REGISTRATION_URL
+	USERS_URL
 } from "../constants/routes";
 
-export const REQUEST_USER_REGISTER = "REQUEST_USER_REGISTER";
-export const RECEIVE_USER_REGISTER = "RECEIVE_USER_REGISTER";
-export const RECEIVE_USER_AUTH    = "RECEIVE_USER_AUTH"
-export const LOADING_CURRENT_USER = 'LOADING_CURRENT_USER'
+export const REQUEST_USERS = "REQUEST_USERS";
+export const RECEIVE_USERS = "RECEIVE_USERS";
+export const REQUEST_USER_EDIT = "REQUEST_USER_EDIT";
+export const RECEIVE_USER_EDIT = "RECEIVE_USER_EDIT";
+export const REQUEST_USER_DELETE = "REQUEST_USER_DELETE";
+export const RECEIVE_USER_DELETE = "RECEIVE_USER_DELETE";
 
 
-export const registerNewUser = (userData) => (dispatch) => {
-	let requestParams = {};
-	const url = BASIC_URL + BASIC_PATH + REGISTRATION_URL;
-
-	if (userData.userName && userData.password) {
-		requestParams['userName'] = userData.userName;
-		requestParams['password'] = userData.password;
-	}
+export const getUsers = () => (dispatch) => {
+	const url = BASIC_URL + BASIC_PATH + USERS_URL;
 
 	dispatch({
-		type: REQUEST_USER_REGISTER,
+		type: REQUEST_USERS,
 		payload: true,
 	});
 
-	return HttpService.post(url, requestParams)
+	return HttpService.get(url, {})
 		.then(response => {
 			dispatch({
-				type: REQUEST_USER_REGISTER,
+				type: REQUEST_USERS,
 				payload: false,
 			});
 
-			return response;
+			dispatch({
+				type: RECEIVE_USERS,
+				payload: response,
+			});
 		})
 }
 
-export const authUser = (userData) => (dispatch) => {
-	let requestParams = {};
-	const url = BASIC_URL + BASIC_PATH + AUTH_URL;
+export const editUser = (userData) => (dispatch) => {
 
-	if (userData.userName && userData.password) {
-		requestParams['userName'] = userData.userName;
-		requestParams['password'] = userData.password;
-	}
+}
 
-	dispatch({
-		type: REQUEST_USER_REGISTER,
-		payload: true,
-	});
+export const deleteUser = (userData) => (dispatch) => {
 
-	return HttpService.post(url, requestParams)
-		.then(response => {
-			dispatch({
-				type: REQUEST_USER_REGISTER,
-				payload: false,
-			});
-
-			return dispatch({
-				type: RECEIVE_USER_AUTH,
-				currentUser: response,
-			})
-		})
 }

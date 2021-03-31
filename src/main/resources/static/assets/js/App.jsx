@@ -7,6 +7,7 @@ import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import RegistryPage from "./pages/RegistryPage";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
 
 
 export default class App extends Component {
@@ -18,6 +19,7 @@ export default class App extends Component {
 						<Route exact path="/" component={MainPage}/>
 						<Route exact path="/login" component={LoginPage}/>
 						<Route exact path="/registration" component={RegistryPage}/>
+						<Route exact path="/dashboard" component={Dashboard}/>
 						<Route path="*" component={NotFound}/>
 					</Switch>
 				</Router>

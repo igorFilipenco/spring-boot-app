@@ -1,33 +1,49 @@
 import {
-	REQUEST_USER_REGISTER,
-	RECEIVE_USER_REGISTER,
-	RECEIVE_USER_AUTH,
-	LOADING_CURRENT_USER
+	REQUEST_USERS,
+	RECEIVE_USERS,
+	REQUEST_USER_EDIT,
+	RECEIVE_USER_EDIT,
+	REQUEST_USER_DELETE,
+	RECEIVE_USER_DELETE
 }  from '../actions/user';
 
 
 const initialState = {
-	userData : {},
-	currentUserLoaded: false,
+	users : [],
+	usersLoaded: false,
 };
 
 export const user = (state = initialState, action) => {
 	switch (action.type) {
-		case REQUEST_USER_REGISTER:
+		case REQUEST_USERS:
 			return {
 				...state,
-				currentUserLoaded: action.payload
+				usersLoaded: action.payload
 			};
-		case RECEIVE_USER_REGISTER:
+		case RECEIVE_USERS:
 			return {
 				...state,
-				currentUserLoaded: true,
+				users: action.payload,
 			};
-		case RECEIVE_USER_AUTH:
+		case REQUEST_USER_EDIT:
 			return {
 				...state,
-				userData: action.payload,
-				currentUserLoaded: true,
+				usersLoaded: action.payload
+			};
+		case RECEIVE_USER_EDIT:
+			return {
+				...state,
+				users: action.payload,
+			};
+		case REQUEST_USER_DELETE:
+			return {
+				...state,
+				usersLoaded: action.payload
+			};
+		case RECEIVE_USER_DELETE:
+			return {
+				...state,
+				users: action.payload,
 			};
 		default:
 			return state

@@ -2,7 +2,7 @@ import React, {Component, Fragment, useContext} from 'react';
 import {Button, Segment, Form, Input, Icon, Header, Divider} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom';
-import {registerNewUser} from "../actions/user";
+import {registerNewUser} from "../actions/auth";
 
 
 class RegistryPage extends Component {

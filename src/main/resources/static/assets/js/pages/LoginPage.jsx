@@ -1,7 +1,20 @@
 import React, {Component, Fragment} from 'react';
-import {Button, Divider, Form, Header, Icon, Input, Segment} from "semantic-ui-react";
+import {authUser} from "../actions/auth";
 
-export default class LoginPage extends Component {
+import {
+	Button,
+	Divider,
+	Form,
+	Header,
+	Icon,
+	Input,
+	Segment
+} from "semantic-ui-react";
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
+
+
+class LoginPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,7 +26,10 @@ export default class LoginPage extends Component {
 	}
 
 	render() {
-		let {inputDisabled, isLoading} = this.state;
+		let {
+			inputDisabled,
+			isLoading
+		} = this.state;
 
 		return (
 			<Fragment>
@@ -30,7 +46,7 @@ export default class LoginPage extends Component {
 								disabled={inputDisabled}
 								loading={isLoading}
 								onChange={(event, data) => this.setState({
-									userName: data.userName
+									userName: data.value
 								})}
 							/>
 						</Form.Field>
@@ -38,9 +54,10 @@ export default class LoginPage extends Component {
 							<Input placeholder='password...'
 							       disabled={inputDisabled}
 							       loading={isLoading}
-							       onChange={(event, data) => this.setState({
-								       password: data.password
-							       })}
+							       onChange={(event, data) =>
+								       this.setState({
+									       password: data.value
+								       })}
 							/>
 						</Form.Field>
 					</Form>
@@ -49,8 +66,9 @@ export default class LoginPage extends Component {
 						<Button onClick={() => this.props.history.push("/")}>
 							Back
 						</Button>
+						<Divider hidden/>
 						<Button primary
-						        onClick={this.onRegisterButtonClick()}
+						        onClick={() => this.onLoginButtonClick()}
 						>
 							Log in
 						</Button>
@@ -60,7 +78,22 @@ export default class LoginPage extends Component {
 		)
 	}
 
-	onRegisterButtonClick = () => {
+	onLoginButtonClick = () => {
+		const that = this;
+		let promise = new Promise((resolve, reject) => resolve(1));
 
+		promise
+			.then(() => that.setState({inputDisabled: true, isLoading: true}))
+			.then(() => {
+				return that.props.dispatch(authUser({
+					userName: that.state.userName,
+					password: that.state.password
+				}));
+			})
+			.then(() => {
+				this.props.history.push("/dashboard");
+			});
 	}
 }
+
+export default withRouter(connect()(LoginPage));
